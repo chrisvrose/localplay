@@ -63,6 +63,7 @@ public class PlaySessionServiceTest {
 
         assertThat(returnedPlaySessions).isSameAs(playSessions)
                 .allMatch(e -> e.getUpdateTime().isBefore(LocalDateTime.now(clock)));
+        verify(playSessionRepository).deleteAll(returnedPlaySessions);
         verify(playSessionRepository).findByUpdateTimeBefore(LocalDateTime.now(clock));
     }
 }

@@ -1,5 +1,8 @@
 package me.kekvrose.localplay.dto;
 
+import lombok.Getter;
+
+@Getter
 public class ActionMessage {
     private final ActionState state;
     private final long timestamp;
@@ -10,16 +13,4 @@ public class ActionMessage {
         this.timestamp = timestamp;
         this.comment = comment;
     }
-    
-    public ActionState getState() {
-        return state;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public String getComment() {
-        return comment;
-    }    
 }

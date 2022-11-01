@@ -22,10 +22,9 @@ import me.kekvrose.localplay.entity.PlaySession;
 public class PlaySessionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlaySessionService.class);
     @Autowired
-    public PlaySessionRepository playSessionRepository;
-
+    private PlaySessionRepository playSessionRepository;
     @Autowired
-    public Clock localClock;
+    private Clock localClock;
 
     public PlaySession create() {
         PlaySession playSession = new PlaySession();

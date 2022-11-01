@@ -44,5 +44,4 @@ public class PlaySession {
     private UUID hostId;
     @NonNull
     private UUID participantId;
-
 }

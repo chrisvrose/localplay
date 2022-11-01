@@ -8,18 +8,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
 import me.kekvrose.localplay.entity.PlaySession;
 import me.kekvrose.localplay.service.PlaySessionService;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/play")
 public class PlaySessionController {
     @Autowired
-    public PlaySessionService playSessionService;
+    private PlaySessionService playSessionService;
 
     @PostMapping("")
     public PlaySession createSession() {
         return playSessionService.create();
     }
-
 }

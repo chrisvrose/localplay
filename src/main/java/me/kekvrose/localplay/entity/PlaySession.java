@@ -1,22 +1,15 @@
 package me.kekvrose.localplay.entity;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
-
+import javax.persistence.ManyToOne;
 import org.springframework.lang.NonNull;
-
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * An entry for a playSession in database. Why exist? Because we can peer based
@@ -24,13 +17,8 @@ import lombok.Setter;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
-@Table(indexes = {
-        @Index(columnList = "hostId"),
-        @Index(columnList = "participantId"),
-})
 public class PlaySession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -39,9 +27,6 @@ public class PlaySession {
     @NonNull
     private LocalDateTime updateTime;
 
-    @NonNull
-    @Column(nullable = false, unique = true)
-    private UUID hostId;
-    @NonNull
-    private UUID participantId;
+    @ManyToOne(optional = false)
+    private PlaySessionUser host;
 }

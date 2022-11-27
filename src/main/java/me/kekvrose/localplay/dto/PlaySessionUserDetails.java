@@ -8,13 +8,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.kekvrose.localplay.entity.PlaySessionUser;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlaySessionUserDetails implements UserDetails {
-
+    @Getter
     private PlaySessionUser playSessionUser;
 
     @Override

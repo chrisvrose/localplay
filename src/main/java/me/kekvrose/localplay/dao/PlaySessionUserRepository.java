@@ -8,4 +8,5 @@ import me.kekvrose.localplay.entity.PlaySessionUser;
 
 public interface PlaySessionUserRepository extends JpaRepository<PlaySessionUser,Integer>{
     Optional<PlaySessionUser> findByUsername(String username);
+    PlaySessionUser getByUsername(String username);
 }

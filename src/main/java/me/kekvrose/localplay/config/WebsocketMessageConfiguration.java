@@ -14,10 +14,6 @@ import lombok.AllArgsConstructor;
 @EnableWebSocketMessageBroker
 @AllArgsConstructor
 public class WebsocketMessageConfiguration implements WebSocketMessageBrokerConfigurer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketMessageConfiguration.class);
-
-    
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         WebSocketMessageBrokerConfigurer.super.configureMessageBroker(registry);

@@ -2,6 +2,7 @@ package me.kekvrose.localplay.controller;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -17,10 +19,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import me.kekvrose.localplay.entity.PlaySession;
 import me.kekvrose.localplay.service.PlaySessionService;
 
-@WebMvcTest
+@WebMvcTest(PlaySessionController.class)
+@WithMockUser(username="admin",roles={"USER","ADMIN"})
 public class PlaySessionControllerTest {
     @MockBean
     private PlaySessionService playSessionService;
+
 
     @Autowired
     private PlaySessionController playSessionController;
@@ -40,7 +44,7 @@ public class PlaySessionControllerTest {
         doReturn(s).when(playSessionService).create();
 
         this.mockMvc
-            .perform(MockMvcRequestBuilders.post("/play"))
+            .perform(MockMvcRequestBuilders.post("/play").with(csrf()))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
     }

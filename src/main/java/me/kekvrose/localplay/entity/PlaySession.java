@@ -1,12 +1,16 @@
 package me.kekvrose.localplay.entity;
 
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import org.springframework.lang.NonNull;
+import javax.persistence.OneToOne;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +28,11 @@ public class PlaySession {
     @Id
     private Integer id;
 
-    @NonNull
+    @Column(nullable = false)
     private LocalDateTime updateTime;
+
+    @Embedded
+    private PlaySessionDetails playSessionDetails;
 
     @ManyToOne(optional = false)
     private PlaySessionUser host;

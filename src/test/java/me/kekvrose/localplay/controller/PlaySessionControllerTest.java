@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import me.kekvrose.localplay.entity.PlaySession;
+import me.kekvrose.localplay.entity.PlaySessionDetails;
 import me.kekvrose.localplay.entity.PlaySessionUser;
 import me.kekvrose.localplay.service.PlaySessionService;
 
@@ -41,7 +42,7 @@ public class PlaySessionControllerTest {
     @Test
     void playSessionControllerGetWorks() throws Exception {
         PlaySession playSession = new PlaySession(1, LocalDateTime.now(),
-                new PlaySessionUser(5, "admin", "password", true, Arrays.asList(USER_ROLE)));
+                new PlaySessionDetails(),new PlaySessionUser(5, "admin", "password", true, Arrays.asList(USER_ROLE)));
 
         doReturn(playSession).when(playSessionService).create(any());
 

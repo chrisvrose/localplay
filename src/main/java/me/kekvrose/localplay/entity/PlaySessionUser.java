@@ -30,6 +30,6 @@ public class PlaySessionUser {
     @Column(nullable = false)
     private boolean enabled;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection //(fetch = FetchType.EAGER)
     private List<String> roles;
 }

@@ -21,6 +21,7 @@ import me.kekvrose.localplay.dao.PlaySessionRepository;
 import me.kekvrose.localplay.dao.PlaySessionUserRepository;
 import me.kekvrose.localplay.dto.PlaySessionUserDetails;
 import me.kekvrose.localplay.entity.PlaySession;
+import me.kekvrose.localplay.entity.PlaySessionDetails;
 import me.kekvrose.localplay.entity.PlaySessionUser;
 
 @ExtendWith(MockitoExtension.class)
@@ -70,8 +71,8 @@ public class PlaySessionServiceTest {
     @Test
     public void cleanupWorks() {
         List<PlaySession> playSessions = Arrays.asList(
-                new PlaySession(1, LocalDateTime.now(clock).plusHours(-1), playSessionUser),
-                new PlaySession(1, LocalDateTime.now(clock).plusDays(-1), playSessionUser));
+                new PlaySession(1, LocalDateTime.now(clock).plusHours(-1),new PlaySessionDetails(), playSessionUser),
+                new PlaySession(1, LocalDateTime.now(clock).plusDays(-1),new PlaySessionDetails(), playSessionUser));
         when(playSessionRepository.findByUpdateTimeBefore(any())).thenReturn(playSessions);
 
         List<PlaySession> returnedPlaySessions = playSessionService.cleanup();

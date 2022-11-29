@@ -3,6 +3,8 @@ package me.kekvrose.localplay.dto;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

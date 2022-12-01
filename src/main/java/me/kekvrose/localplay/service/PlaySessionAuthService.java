@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import me.kekvrose.localplay.dao.PlaySessionUserRepository;
 import me.kekvrose.localplay.entity.PlaySessionUser;
+import me.kekvrose.localplay.utils.Constants.GrantedAuthority;
 import me.kekvrose.localplay.utils.Constants.Roles;
 
 @Service
@@ -27,7 +28,7 @@ public class PlaySessionAuthService {
         }
         String encodedPassword = passwordEncoder.encode(password);
         PlaySessionUser playSessionUser = new PlaySessionUser(null, username, encodedPassword, true,
-                Collections.singletonList(Roles.USER_ROLE));
+                Collections.singletonList(GrantedAuthority.ROLE_USER));
         return userRepository.save(playSessionUser);
     }
 }

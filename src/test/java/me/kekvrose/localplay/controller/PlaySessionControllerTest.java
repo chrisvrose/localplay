@@ -22,9 +22,10 @@ import me.kekvrose.localplay.entity.PlaySession;
 import me.kekvrose.localplay.entity.PlaySessionDetails;
 import me.kekvrose.localplay.entity.PlaySessionUser;
 import me.kekvrose.localplay.service.PlaySessionService;
+import me.kekvrose.localplay.utils.Constants;
 
 @WebMvcTest(PlaySessionController.class)
-@WithMockUser(username = "admin", roles = { "USER", "ADMIN" }, password = "helloworld")
+@WithMockUser(username = "admin", roles = { Constants.Roles.USER_ROLE, Constants.Roles.ADMIN_ROLE }, password = "helloworld")
 public class PlaySessionControllerTest {
     @MockBean
     private PlaySessionService playSessionService;

@@ -42,6 +42,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+test {
+	finalizedBy jacocoTestReport
+}
 
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report

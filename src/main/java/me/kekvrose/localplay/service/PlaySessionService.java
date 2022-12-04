@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import me.kekvrose.localplay.dao.PlaySessionRepository;
 import me.kekvrose.localplay.dao.PlaySessionUserRepository;
+import me.kekvrose.localplay.dto.session.PlaySessionDTO;
 import me.kekvrose.localplay.entity.PlaySession;
 
 @AllArgsConstructor
@@ -30,7 +31,7 @@ public class PlaySessionService {
     private Clock localClock;
 
     @Transactional
-    public PlaySession create(UserDetails userDetails) {
+    public PlaySessionDTO create(UserDetails userDetails) {
         PlaySession playSession = new PlaySession();
         playSession.setUpdateTime(
                 LocalDateTime.now(localClock).plusDays(1));
@@ -38,14 +39,14 @@ public class PlaySessionService {
         
         playSession.setHost(playSessionUserRepository.getByUsername(userDetails.getUsername()));
         LOGGER.debug("Creating play session {}", playSession);
-        return playSessionRepository.save(playSession);
+        return new PlaySessionDTO(playSessionRepository.save(playSession));
     }
 
     @Transactional
-    public List<PlaySession> cleanup() {
+    public List<PlaySessionDTO> cleanup() {
         List<PlaySession> playsessions = playSessionRepository.findByUpdateTimeBefore(LocalDateTime.now(localClock));
         LOGGER.debug("Found {} elements to cleanup", playsessions.size());
         playSessionRepository.deleteAll(playsessions);
-        return playsessions;
+        return playsessions.stream().map(e->new PlaySessionDTO(e)).toList();
     }
 }

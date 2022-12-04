@@ -1,8 +1,6 @@
 package me.kekvrose.localplay.dto;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +22,7 @@ public class PlaySessionUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return playSessionUser.getRoles()
                 .stream().map(Constants.ROLE_PREFIX_STRING::concat).map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

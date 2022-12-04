@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import me.kekvrose.localplay.entity.PlaySession;
+import me.kekvrose.localplay.dto.session.PlaySessionDTO;
 import me.kekvrose.localplay.service.PlaySessionService;
 
 @RestController
@@ -19,9 +19,7 @@ public class PlaySessionController {
     private PlaySessionService playSessionService;
 
     @PostMapping("")
-    public PlaySession createSession(@AuthenticationPrincipal UserDetails user) {
-
+    public PlaySessionDTO createSession(@AuthenticationPrincipal UserDetails user) {
         return playSessionService.create(user);
-
     }
 }

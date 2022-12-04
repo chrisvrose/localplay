@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import me.kekvrose.localplay.dto.session.PlaySessionDTO;
 import me.kekvrose.localplay.entity.PlaySession;
 import me.kekvrose.localplay.entity.PlaySessionDetails;
 import me.kekvrose.localplay.entity.PlaySessionUser;
@@ -44,7 +45,7 @@ public class PlaySessionControllerTest {
         PlaySession playSession = new PlaySession(1, LocalDateTime.now(),
                 new PlaySessionDetails(),new PlaySessionUser(5, "admin", "password", true, Arrays.asList(USER_ROLE)));
 
-        doReturn(playSession).when(playSessionService).create(any());
+        doReturn(new PlaySessionDTO(playSession)).when(playSessionService).create(any());
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/play").with(csrf()))

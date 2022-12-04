@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import me.kekvrose.localplay.dao.PlaySessionRepository;
 import me.kekvrose.localplay.dao.PlaySessionUserRepository;
 import me.kekvrose.localplay.dto.PlaySessionUserDetails;
+import me.kekvrose.localplay.dto.session.PlaySessionDTO;
 import me.kekvrose.localplay.entity.PlaySession;
 import me.kekvrose.localplay.entity.PlaySessionDetails;
 import me.kekvrose.localplay.entity.PlaySessionUser;
@@ -59,13 +60,13 @@ public class PlaySessionServiceTest {
             return playSession;
         });
 
-        PlaySession playSession = playSessionService.create(playSessionUserDetails);
+        PlaySessionDTO playSession = playSessionService.create(playSessionUserDetails);
 
         verify(playSessionRepository).save(any());
         
         assertThat(playSession).isNotNull();
         assertThat(playSession.getId()).isNotNull().isEqualTo(5);
-        assertThat(playSession.getHost()).isSameAs(playSessionUser);
+        assertThat(playSession.getHost().getUsername()).isSameAs(playSessionUser.getUsername());
     }
 
     @Test
@@ -75,11 +76,11 @@ public class PlaySessionServiceTest {
                 new PlaySession(1, LocalDateTime.now(clock).plusDays(-1),new PlaySessionDetails(), playSessionUser));
         when(playSessionRepository.findByUpdateTimeBefore(any())).thenReturn(playSessions);
 
-        List<PlaySession> returnedPlaySessions = playSessionService.cleanup();
+        List<PlaySessionDTO> returnedPlaySessions = playSessionService.cleanup();
 
-        assertThat(returnedPlaySessions).isSameAs(playSessions)
+        assertThat(returnedPlaySessions)
                 .allMatch(e -> e.getUpdateTime().isBefore(LocalDateTime.now(clock)));
-        verify(playSessionRepository).deleteAll(returnedPlaySessions);
+        verify(playSessionRepository).deleteAll(playSessions);
         verify(playSessionRepository).findByUpdateTimeBefore(LocalDateTime.now(clock));
     }
 }

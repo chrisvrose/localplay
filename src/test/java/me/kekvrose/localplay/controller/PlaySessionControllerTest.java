@@ -2,9 +2,11 @@ package me.kekvrose.localplay.controller;
 
 import static me.kekvrose.localplay.utils.Constants.Roles.USER_ROLE;
 import static org.assertj.core.api.Assertions.*;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -25,7 +27,8 @@ import me.kekvrose.localplay.service.PlaySessionService;
 import me.kekvrose.localplay.utils.Constants;
 
 @WebMvcTest(PlaySessionController.class)
-@WithMockUser(username = "admin", roles = { Constants.Roles.USER_ROLE, Constants.Roles.ADMIN_ROLE }, password = "helloworld")
+@WithMockUser(username = "admin", roles = { Constants.Roles.USER_ROLE,
+        Constants.Roles.ADMIN_ROLE }, password = "helloworld")
 public class PlaySessionControllerTest {
     @MockBean
     private PlaySessionService playSessionService;
@@ -43,14 +46,19 @@ public class PlaySessionControllerTest {
 
     @Test
     void playSessionControllerGetWorks() throws Exception {
-        PlaySession playSession = new PlaySession(1, LocalDateTime.now(),
+        LocalDateTime localDateTime = LocalDateTime.now();
+        PlaySession playSession = new PlaySession(1, localDateTime,
                 new PlaySessionDetails(),new PlaySessionUser(5, "admin", "password", true, Arrays.asList(USER_ROLE)));
 
         doReturn(new PlaySessionDTO(playSession)).when(playSessionService).create(any());
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/play").with(csrf()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.host.username",is("admin")))
+                .andExpect(jsonPath("$.updateTime",is(localDateTime.toString())))
+                ;
     }
 }

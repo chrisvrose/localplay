@@ -1,4 +1,4 @@
-package me.kekvrose.localplay.dto;
+package me.kekvrose.localplay.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

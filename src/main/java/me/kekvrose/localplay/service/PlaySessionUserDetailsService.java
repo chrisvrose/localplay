@@ -1,23 +1,23 @@
 package me.kekvrose.localplay.service;
 
-import java.util.Collections;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import me.kekvrose.localplay.dao.PlaySessionUserRepository;
 import me.kekvrose.localplay.dto.PlaySessionUserDetails;
 import me.kekvrose.localplay.entity.PlaySessionUser;
-import me.kekvrose.localplay.utils.Constants.Roles;
+import me.kekvrose.localplay.utils.Constants;
 
+/**
+ * Provides authorization functionality for Spring and userpass management
+ */
 @Service
-public class PlaySessionUserDetailsService implements UserDetailsManager {
+public class PlaySessionUserDetailsService implements UserDetailsService {
 
     private final PlaySessionUserRepository userRepository;
     
@@ -30,7 +30,7 @@ public class PlaySessionUserDetailsService implements UserDetailsManager {
     }
 
     
-
+    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<PlaySessionUser> playSessionUserOptional = userRepository.findByUsername(username);
@@ -38,44 +38,21 @@ public class PlaySessionUserDetailsService implements UserDetailsManager {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
-    @Override
-    public void createUser(UserDetails user) {
-        Optional<PlaySessionUser> playSessionUserOptional = userRepository.findByUsername(user.getUsername());
+    /**
+     * Create an account
+     * @param username Username
+     * @param password Plaintext password
+     */
+    public void createUser(String username, String password) {
+        Optional<PlaySessionUser> playSessionUserOptional = userRepository.findByUsername(username);
         if (playSessionUserOptional.isPresent()) {
             throw new IllegalArgumentException("User exists");
         }
-        String username = user.getUsername();
-        String password = user.getPassword();
+        
+        boolean isEnabled = true;
         String encodedPassword = passwordEncoder.encode(password);
-        PlaySessionUser playSessionUser = new PlaySessionUser(null, username, encodedPassword, true,
-                Collections.singletonList(Roles.USER_ROLE));
+        PlaySessionUser playSessionUser = new PlaySessionUser(null, username, encodedPassword, isEnabled,
+                Constants.Roles.DEFAULT_ROLE_LIST);
         userRepository.save(playSessionUser);
     }
-
-    @Override
-    public void updateUser(UserDetails user) {
-        // TODO Auto-generated method stub
-        throw new IllegalAccessError("Not yet implemented");
-    }
-
-    @Override
-    public void deleteUser(String username) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void changePassword(String oldPassword, String newPassword) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public boolean userExists(String username) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    
-
 }

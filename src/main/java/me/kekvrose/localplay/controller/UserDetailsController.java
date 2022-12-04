@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import me.kekvrose.localplay.dto.CredentialsBody;
-import me.kekvrose.localplay.dto.PlaySessionUserDetails;
-import me.kekvrose.localplay.entity.PlaySessionUser;
+import me.kekvrose.localplay.dto.auth.CredentialsBody;
 import me.kekvrose.localplay.service.PlaySessionUserDetailsService;
-import me.kekvrose.localplay.utils.Constants;
 
 @RestController
 @RequestMapping("/register")
@@ -31,8 +28,8 @@ public class UserDetailsController {
     public String register(@RequestBody CredentialsBody credentialsBody) {
         String username = credentialsBody.getUsername();
         String password = credentialsBody.getPassword();
-        PlaySessionUserDetails userDetails = new PlaySessionUserDetails(new PlaySessionUser(null, username, password, true, Constants.Roles.DEFAULT_ROLE_LIST));
-        playSessionAuthService.createUser(userDetails);
+        
+        playSessionAuthService.createUser(username,password);
         return "done";
     }
 }

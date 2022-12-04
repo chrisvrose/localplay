@@ -2,7 +2,6 @@ package me.kekvrose.localplay.config;
 
 import static me.kekvrose.localplay.utils.Constants.Roles.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import me.kekvrose.localplay.service.PlaySessionUserDetailsService;
@@ -40,11 +38,4 @@ public class SecurityConfig {
                 .antMatchers("/admin/**").hasRole(ADMIN_ROLE);
         return http.build();
     }
-
-    @Bean
-    public UserDetailsManager userDetailsService(PlaySessionUserDetailsService playSessionUserDetailsService) {
-        return playSessionUserDetailsService;
-    }
-
-    
 }

@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 @EnableWebSocketMessageBroker
 @AllArgsConstructor
 public class WebsocketMessageConfiguration implements WebSocketMessageBrokerConfigurer {
+    
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         WebSocketMessageBrokerConfigurer.super.configureMessageBroker(registry);
@@ -20,8 +21,6 @@ public class WebsocketMessageConfiguration implements WebSocketMessageBrokerConf
         // prefix my app's topics with /
         registry.setApplicationDestinationPrefixes("/");
     }
-
-
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {

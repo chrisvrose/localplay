@@ -1,0 +1,8 @@
+spring.datasource.url=jdbc:postgresql://localhost/db
+# spring.datasource.driver-class-name=postgresql
+spring.datasource.username=username
+spring.datasource.password=pwd
+# Show sql bring executed
+spring.jpa.show-sql=true
+# generate the ddl if required
+spring.jpa.generate-ddl=true

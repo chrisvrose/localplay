@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.kekvrose.localplay.entity.PlaySessionUser;
+import me.kekvrose.localplay.utils.Constants;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,10 +22,11 @@ public class PlaySessionUserDetails implements UserDetails {
     @Getter
     private PlaySessionUser playSessionUser;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return playSessionUser.getRoles()
-                .stream().map(SimpleGrantedAuthority::new)
+                .stream().map(Constants.ROLE_PREFIX_STRING::concat).map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
 
